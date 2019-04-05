@@ -35,7 +35,6 @@ public class JWTTest{
     }
 
     public static void highlightWonkyJsonError(){
-        System.out.println("Just using the JSONObject gubbins from json-smart directly");
         JSONObject object = new JSONObject();
         object.put("String", "String");
         object.put("Long", 1L);
@@ -45,7 +44,18 @@ public class JWTTest{
         System.out.println(object.toJSONString());
     }
 
+    public static void dateTimesArentReallyHandledAnyway(){
+        System.out.println("Just using the JSONObject gubbins from json-smart directly");
+        JSONObject object = new JSONObject();
+        object.put("DateTime", LocalDateTime.now());
+        System.out.println(object.toJSONString());
+    }
+
     public static void main(String[] args){
+        //LocalDateTimes don't really appear to be handled in any meaningful way anyway...
+        dateTimesArentReallyHandledAnyway();
+
+        //But LocalDates really cause some issues:
         try{
             highlightWonkyJsonError();
         }catch(java.lang.IllegalAccessError e){
@@ -53,6 +63,7 @@ public class JWTTest{
             e.printStackTrace();
         }
 
+        //Especially in complex scenarios
         try{
             recreatePlayFrameworkError();
         }catch(java.lang.IllegalAccessError e){
